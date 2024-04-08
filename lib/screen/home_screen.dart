@@ -30,6 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
             context: context,
             isDismissible: true, //배경 탭했을 때 BottomSheet 닫기
             builder: (_) => const ScheduleBottomSheet(),
+            //BottomSheet의 높이를 화면의 최대 높이로,
+            //정의하고 스크롤 가능하게 변경
+            isScrollControlled: true,
           );
         },
         child: const Icon(
