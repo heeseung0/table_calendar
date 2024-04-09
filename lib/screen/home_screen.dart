@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:table_calendar_practice/component/main_calendar.dart';
 import 'package:table_calendar_practice/component/schedule_bottom_sheet.dart';
 import 'package:table_calendar_practice/component/schedule_card.dart';
 import 'package:table_calendar_practice/component/today_banner.dart';
 import 'package:table_calendar_practice/const/colors.dart';
+import 'package:table_calendar_practice/database/drift_database.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,10 +57,40 @@ class _HomeScreenState extends State<HomeScreen> {
               count: 0,
             ),
             const SizedBox(height: 8.0),
-            const ScheduleCard(
-              startTime: 12,
-              endTime: 14,
-              content: '프로그래밍 공부',
+            Expanded(
+              child: StreamBuilder<List<Schedule>>(
+                stream: GetIt.I<LocalDatabase>().watchSchedules(selectedDate),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Container();
+                  }
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final schedule = snapshot.data![index];
+                      return Dismissible(
+                        //유니크 키값
+                        key: ObjectKey(schedule.id),
+                        //밀기 방향(오른쪽에서 왼쪽으로)
+                        direction: DismissDirection.startToEnd,
+                        //밀기 했을 때 실행할 함수
+                        onDismissed: (DismissDirection direction) {
+                          GetIt.I<LocalDatabase>().removeSchedule(schedule.id);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 8.0, left: 8.0, right: 8.0),
+                          child: ScheduleCard(
+                            startTime: schedule.startTime,
+                            endTime: schedule.endTime,
+                            content: schedule.content,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
