@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar_practice/database/drift_database.dart';
+import 'package:table_calendar_practice/provider/schedule_provider.dart';
+import 'package:table_calendar_practice/repository/schedule_repository.dart';
 import 'package:table_calendar_practice/screen/home_screen.dart';
 
 void main() async {
@@ -16,10 +19,16 @@ void main() async {
   // get_it 패키지는 DI를 구현하는 플러그인이다.
   GetIt.I.registerSingleton<LocalDatabase>(database);
 
+  final repository = ScheduleRepository();
+  final scheduleProvider = ScheduleProvider(repository: repository);
+
   runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    ChangeNotifierProvider(
+      create: (_) => scheduleProvider,
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+      ),
     ),
   );
 }
