@@ -9,7 +9,7 @@ import 'package:table_calendar_practice/const/colors.dart';
 import 'package:table_calendar_practice/database/drift_database.dart';
 import 'package:table_calendar_practice/provider/schedule_provider.dart';
 
-class HomeScreenState extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   DateTime selectedDate = DateTime.utc(
     DateTime.now().year,
     DateTime.now().month,
@@ -50,7 +50,8 @@ class HomeScreenState extends StatelessWidget {
           children: [
             MainCalendar(
               selectedDate: selectedDate, // 선택된 날짜 전달하기
-              onDaySelected: onDaySelected, // 날짜가 선택됐을 때 실행할 함수
+              onDaySelected: (selectedDate, focusedDate) => onDaySelected(
+                  selectedDate, focusedDate, context), // 날짜가 선택됐을 때 실행할 함수
             ),
             const SizedBox(height: 8.0),
             TodayBanner(
@@ -89,5 +90,10 @@ class HomeScreenState extends StatelessWidget {
     );
   }
 
-  void onDaySelected(DateTime selectedDate, DateTime focusedDate) {}
+  void onDaySelected(
+      DateTime selectedDate, DateTime focusedDate, BuildContext context) {
+    final provider = context.read<ScheduleProvider>();
+    provider.changeSelectedDate(date: selectedDate);
+    provider.getSchedules(date: selectedDate);
+  }
 }

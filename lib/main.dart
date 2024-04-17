@@ -25,7 +25,7 @@ void main() async {
   runApp(
     ChangeNotifierProvider(
       create: (_) => scheduleProvider,
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: HomeScreen(),
       ),
