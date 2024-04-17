@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar_practice/component/main_calendar.dart';
 import 'package:table_calendar_practice/component/schedule_bottom_sheet.dart';
 import 'package:table_calendar_practice/component/schedule_card.dart';
 import 'package:table_calendar_practice/component/today_banner.dart';
 import 'package:table_calendar_practice/const/colors.dart';
 import 'package:table_calendar_practice/database/drift_database.dart';
+import 'package:table_calendar_practice/provider/schedule_provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends StatelessWidget {
   DateTime selectedDate = DateTime.utc(
     DateTime.now().year,
     DateTime.now().month,
@@ -23,6 +18,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 프로바이더 변경이 있을 때마다 build() 함수 재실행
+    final provider = context.watch<ScheduleProvider>();
+    final selectedDate = provider.selectedDate; // 선택된 날짜
+    // 선택된 날짜에 해당하는 일정 가져오기
+    final schedules = provider.cache[selectedDate] ?? [];
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: PRIMARY_COLOR,
@@ -103,9 +104,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void onDaySelected(DateTime selectedDate, DateTime focusedDate) {
-    setState(() {
-      this.selectedDate = selectedDate;
-    });
-  }
+  void onDaySelected(DateTime selectedDate, DateTime focusedDate) {}
 }
