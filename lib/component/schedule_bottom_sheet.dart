@@ -1,9 +1,12 @@
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar_practice/component/custom_text_field.dart';
 import 'package:table_calendar_practice/const/colors.dart';
 import 'package:table_calendar_practice/database/drift_database.dart';
+import 'package:table_calendar_practice/model/schedule_model.dart';
+import 'package:table_calendar_practice/provider/schedule_provider.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   final DateTime selectedDate;
@@ -83,7 +86,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: onSavePressed,
+                    onPressed: () => onSavePressed(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PRIMARY_COLOR,
                     ),
@@ -98,11 +101,12 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     );
   }
 
-  void onSavePressed() async {
+  void onSavePressed(BuildContext context) async {
     //글로벌 키 사용 하는 것 공부 해야겠음.
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
+      /*
       await GetIt.I<LocalDatabase>().createSchedule(
         //일정 생성하기
         SchedulesCompanion(
@@ -112,6 +116,16 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
           date: Value(widget.selectedDate),
         ),
       );
+       */
+      context.read<ScheduleProvider>().createSchedule(
+            schedule: ScheduleModel(
+              id: 'new_model', //임시 ID
+              content: content!,
+              date: widget.selectedDate,
+              startTime: startTime!,
+              endTime: endTime!,
+            ),
+          );
 
       Navigator.of(context).pop(); //일정 생성 후 화면 뒤로 가기
     }
