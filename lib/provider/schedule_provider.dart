@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar_practice/model/schedule_model.dart';
 import 'package:table_calendar_practice/repository/schedule_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class ScheduleProvider extends ChangeNotifier {
   final ScheduleRepository repository; //API 요청 로직을 담은 클래스
@@ -32,23 +33,55 @@ class ScheduleProvider extends ChangeNotifier {
   void createSchedule({
     required ScheduleModel schedule,
   }) async {
-    final targetDate = schedule.date;
     final savedSchedule = await repository.createSchedule(schedule: schedule);
+
+    final targetDate = schedule.date;
+
+    const uuid = Uuid();
+
+    final tempId = uuid.v4();
+    final newSchedule = schedule.copyWith(
+      id: tempId,
+    );
 
     cache.update(
       targetDate,
       (value) => [
         //현존하는 캐시 리스트 끝에 새로운 일정 추가
         ...value,
-        schedule.copyWith(id: savedSchedule),
+        newSchedule,
       ]..sort(
           (a, b) => a.startTime.compareTo(
             b.startTime,
           ),
         ),
       //날짜에 해당되는 값이 없다면 새로운 리스트에 새로운 일정 하나만 추가
-      ifAbsent: () => [schedule],
+      ifAbsent: () => [newSchedule],
     );
+
+    notifyListeners();
+
+    try {
+      //api 요청
+      final savedSchedule = await repository.createSchedule(schedule: schedule);
+
+      //서버 응답 기반으로 캐시 업데이트
+      cache.update(
+          targetDate,
+          (value) => value
+              .map((e) => e.id == tempId
+                  ? e.copyWith(
+                      id: savedSchedule,
+                    )
+                  : e)
+              .toList());
+    } catch (e) {
+      //삭제 실패 시 캐시 롤백하기
+      cache.update(
+        targetDate,
+        (value) => value.where((e) => e.id != tempId).toList(),
+      );
+    }
 
     notifyListeners();
   }
@@ -59,14 +92,35 @@ class ScheduleProvider extends ChangeNotifier {
   }) async {
     final resp = await repository.deleteSchedule(id: id);
 
-    //캐시에서 데이터 삭제
+    final targetSchedule = cache[date]!.firstWhere(
+      (e) => e.id == id,
+    );
+
+    //긍정적 응답 (응답 전에 캐시 먼저 업데이트)
     cache.update(
       date,
       (value) => value.where((e) => e.id != id).toList(),
       ifAbsent: () => [],
     );
 
+    //캐시 업데이트 반영하기
     notifyListeners();
+
+    //캐시에서 데이터 삭제
+    try {
+      await repository.deleteSchedule(id: id);
+    } catch (e) {
+      //삭제 실패 시 캐시 롤백하기
+      cache.update(
+        date,
+        (value) => [...value, targetSchedule]..sort(
+            (a, b) => a.startTime.compareTo(
+              b.startTime,
+            ),
+          ),
+      );
+      notifyListeners();
+    }
   }
 
   void changeSelectedDate({
