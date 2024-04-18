@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "819393584318",
+    "project_id": "calendar-scheduler-seung0",
+    "storage_bucket": "calendar-scheduler-seung0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819393584318:android:e5386cd05c0bf1935592ef",
+        "android_client_info": {
+          "package_name": "com.example.table_calendar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqFiMQk6z7xdXGEorpB96F2axPoJ5D844"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

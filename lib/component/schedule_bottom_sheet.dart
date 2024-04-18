@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -7,6 +8,7 @@ import 'package:table_calendar_practice/const/colors.dart';
 import 'package:table_calendar_practice/database/drift_database.dart';
 import 'package:table_calendar_practice/model/schedule_model.dart';
 import 'package:table_calendar_practice/provider/schedule_provider.dart';
+import 'package:uuid/uuid.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   final DateTime selectedDate;
@@ -106,6 +108,23 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
+      //스케쥴 모델 생성하기
+      final schedule = ScheduleModel(
+        id: Uuid().v4(),
+        content: content!,
+        date: widget.selectedDate,
+        startTime: startTime!,
+        endTime: endTime!,
+      );
+
+      //스케쥴 모델 파이어스토어에 삽입하기
+      await FirebaseFirestore.instance
+          .collection(
+            'schedule',
+          )
+          .doc(schedule.id)
+          .set(schedule.toJson());
+
       /*
       await GetIt.I<LocalDatabase>().createSchedule(
         //일정 생성하기
@@ -117,6 +136,8 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
         ),
       );
        */
+
+      /*
       context.read<ScheduleProvider>().createSchedule(
             schedule: ScheduleModel(
               id: 'new_model', //임시 ID
@@ -126,6 +147,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
               endTime: endTime!,
             ),
           );
+       */
 
       Navigator.of(context).pop(); //일정 생성 후 화면 뒤로 가기
     }
