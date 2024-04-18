@@ -20,22 +20,13 @@ void main() async {
 
   await initializeDateFormatting(); //intl 패키지 초기화(다국어화)
 
-  final database = LocalDatabase(); // DB 생성
-
-  // GetIt에 DB 변수 주입(싱글톤)
-  // get_it 패키지는 DI를 구현하는 플러그인이다.
-  GetIt.I.registerSingleton<LocalDatabase>(database);
-
-  final repository = ScheduleRepository();
-  final scheduleProvider = ScheduleProvider(repository: repository);
+  //코드 정리
+  //Firebase로 이전
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => scheduleProvider,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
-      ),
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
     ),
   );
 }
