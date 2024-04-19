@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar_practice/database/drift_database.dart';
@@ -13,6 +14,9 @@ void main() async {
   //플러터 프레임워크가 준비될 때 까지 대기
   WidgetsFlutterBinding.ensureInitialized();
 
+  //광고 기능 초기화하기
+  MobileAds.instance.initialize();
+
   //Firebase 프로젝트 설정 함수
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -24,7 +28,7 @@ void main() async {
   //Firebase로 이전
 
   runApp(
-    MaterialApp(
+    const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     ),

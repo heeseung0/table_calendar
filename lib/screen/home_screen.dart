@@ -8,6 +8,7 @@ import 'package:table_calendar_practice/component/today_banner.dart';
 import 'package:table_calendar_practice/const/colors.dart';
 import 'package:table_calendar_practice/model/schedule_model.dart';
 import 'package:table_calendar_practice/provider/schedule_provider.dart';
+import 'package:table_calendar_practice/screen/banner_ad_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -101,8 +102,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           json: (e.data() as Map<String, dynamic>)),
                     )
                     .toList();
-                return ListView.builder(
+                return ListView.separated(
                   itemCount: schedules.length,
+
+                  //일정 중간 중간에 실행될 함수
+                  separatorBuilder: (context, index) {
+                    return const BannerAdWidget();
+                  },
                   itemBuilder: (context, index) {
                     final schedule = schedules[index];
 

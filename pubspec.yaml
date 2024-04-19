@@ -22,6 +22,7 @@ dependencies:
   uuid: ^4.3.3  #uuid를 생성하는 플러그인
   firebase_core: ^2.27.0
   cloud_firestore: ^4.15.8
+  google_mobile_ads: ^5.0.0
 
 
 
