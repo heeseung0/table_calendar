@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'calendar-scheduler-seung0.appspot.com',
     iosBundleId: 'com.example.tableCalendar',
   );
+
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -18,8 +16,8 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     super.initState();
 
     //개발 환경에서 실제 광고 ID를 사용하면 안된다.
-    const adUnitId = 'ca-app-pub-9690219734026499/3052153608';
-
+    const bannerTestId = 'ca-app-pub-3940256099942544/6300978111';
+    const adUnitId = bannerTestId; //'ca-app-pub-9690219734026499/3052153608';
     //광고 생성
     banner = BannerAd(
       size: AdSize.banner,

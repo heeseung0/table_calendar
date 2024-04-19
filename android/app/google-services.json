@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:819393584318:android:e5386cd05c0bf1935592ef",
         "android_client_info": {
-          "package_name": "com.example.table_calendar"
+          "package_name": "practice.codefactory.calendar"
         }
       },
       "oauth_client": [],
@@ -23,6 +23,26 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819393584318:android:69f3a4ec4fe2bf215592ef",
+        "android_client_info": {
+          "package_name": "practice.codefactory.calendar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqFiMQk6z7xdXGEorpB96F2axPoJ5D844"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-9690219734026499~6196341630"
     }
   ],
   "configuration_version": "1"

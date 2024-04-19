@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar_practice/component/main_calendar.dart';
 import 'package:table_calendar_practice/component/schedule_bottom_sheet.dart';
 import 'package:table_calendar_practice/component/schedule_card.dart';
 import 'package:table_calendar_practice/component/today_banner.dart';
 import 'package:table_calendar_practice/const/colors.dart';
 import 'package:table_calendar_practice/model/schedule_model.dart';
-import 'package:table_calendar_practice/provider/schedule_provider.dart';
 import 'package:table_calendar_practice/screen/banner_ad_widget.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-package com.example.table_calendar
+package practice.codefactory.calendar
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,13 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
 import 'package:table_calendar_practice/component/custom_text_field.dart';
 import 'package:table_calendar_practice/const/colors.dart';
-import 'package:table_calendar_practice/database/drift_database.dart';
 import 'package:table_calendar_practice/model/schedule_model.dart';
-import 'package:table_calendar_practice/provider/schedule_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {

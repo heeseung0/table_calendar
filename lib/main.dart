@@ -1,13 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:provider/provider.dart';
-import 'package:table_calendar_practice/database/drift_database.dart';
 import 'package:table_calendar_practice/firebase_options.dart';
-import 'package:table_calendar_practice/provider/schedule_provider.dart';
-import 'package:table_calendar_practice/repository/schedule_repository.dart';
 import 'package:table_calendar_practice/screen/home_screen.dart';
 
 void main() async {
